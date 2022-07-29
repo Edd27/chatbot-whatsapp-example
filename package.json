@@ -1,8 +1,8 @@
 {
-  "name": "nodejs-template",
+  "name": "chatbot-whatsapp-example",
   "version": "1.0.0",
   "type": "module",
-  "description": "Template for the projects developed in the Node.JS.",
+  "description": "Chatbot WhatsApp Example",
   "scripts": {
     "dev": "nodemon src/index.js",
     "start": "node src/index.js",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Edd27/nodejs-template.git"
+    "url": "git+https://github.com/Edd27/chatbot-whatsapp-example.git"
   },
   "author": {
     "name": "Edgar Benavides",
@@ -41,7 +41,7 @@
     "*.{js,md}": "prettier --write"
   },
   "bugs": {
-    "url": "https://github.com/Edd27/nodejs-template/issues"
+    "url": "https://github.com/Edd27/chatbot-whatsapp-example/issues"
   },
-  "homepage": "https://github.com/Edd27/nodejs-template#readme"
+  "homepage": "https://github.com/Edd27/chatbot-whatsapp-example#readme"
 }
