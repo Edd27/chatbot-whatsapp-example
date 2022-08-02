@@ -4,7 +4,8 @@
         "module": "Node16",
         "baseUrl": "./",
         "paths": {
-            "#Config/*": ["./src/config/*"]
+            "#Config/*": ["./src/config/*"],
+            "#Img/*": ["./src/img/*"]
         }
     }
 }
