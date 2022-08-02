@@ -1,3 +1,5 @@
 node_modules
 .husky
 .env
+.wwebjs_auth
+.DS_Store
