@@ -1,5 +1,9 @@
 import qrcode from 'qrcode-terminal'
+import fs from 'fs'
 import pkg from 'whatsapp-web.js'
+import exceljs from 'exceljs'
+import moment from 'moment'
+
 const { Client, LocalAuth, MessageMedia } = pkg
 
 const client = new Client({
@@ -23,23 +27,61 @@ client.on('ready', () => {
 })
 
 client.on('message', async message => {
-    const { body, from } = message
-    if (body.length) {
-        console.log(`${from} said: ${body}`)
-        const chat = message.getChat()
-        console.log(chat)
-        // await sendMessage(from, 'Hola! en un momento te contestaré')
-        // await sendMedia(from, 'baby.png')
+    const { body, from, isStatus } = message
+    if (body.length && !isStatus) {
+        const chat = await message.getChat()
+
+        if (!chat.isGroup) {
+            console.log(`${from} said: ${body}`)
+            saveHistory(from, body)
+            // await sendMessage(from, 'Hola! en un momento te contestaré')
+        }
     }
 })
 
 const sendMedia = async (to, file, caption = '') => {
-    const media = MessageMedia.fromFilePath(`./src/img/${file}`)
+    const media = MessageMedia.fromFilePath(`./img/${file}`)
     await client.sendMessage(to, media, { caption })
 }
 
 const sendMessage = async (to, message) => {
     await client.sendMessage(to, message)
+}
+
+const saveHistory = (number, message) => {
+    const pathChat = `./chats/${number}.xlsx`
+    const workbook = new exceljs.Workbook()
+    const today = moment().format('DD-MM-YYYY hh:mm')
+
+    if (fs.existsSync(pathChat)) {
+        workbook.xlsx.readFile(pathChat).then(() => {
+            const worksheet = workbook.getWorksheet(1)
+            const lastRow = worksheet.lastRow
+            const getRowInsert = worksheet.getRow(++lastRow.number)
+            getRowInsert.getCell('A').value = today
+            getRowInsert.getCell('B').value = message
+            getRowInsert.commit()
+            workbook.xlsx
+                .writeFile(pathChat)
+                .then(() => {
+                    console.log('History saved')
+                })
+                .catch(err => console.log(err))
+        })
+    } else {
+        const worksheet = workbook.addWorksheet('Chats')
+        worksheet.columns = [
+            { header: 'Date', key: 'date', width: 20 },
+            { header: 'Message', key: 'message', width: 50 },
+        ]
+        worksheet.addRow({ fecha: today, mensaje: message })
+        workbook.xlsx
+            .writeFile(pathChat)
+            .then(() => {
+                console.log('History saved')
+            })
+            .catch(err => console.log(err))
+    }
 }
 
 export default client
