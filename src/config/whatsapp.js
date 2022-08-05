@@ -3,6 +3,7 @@ import fs from 'fs'
 import pkg from 'whatsapp-web.js'
 import exceljs from 'exceljs'
 import moment from 'moment'
+import qr from 'qr-image'
 
 const { Client, LocalAuth, MessageMedia } = pkg
 
@@ -57,7 +58,7 @@ const saveHistory = (number, message) => {
         workbook.xlsx.readFile(pathChat).then(() => {
             const worksheet = workbook.getWorksheet(1)
             const lastRow = worksheet.lastRow
-            const getRowInsert = worksheet.getRow(++lastRow.number)
+            const getRowInsert = worksheet.getRow(++lastRow._number)
             getRowInsert.getCell('A').value = today
             getRowInsert.getCell('B').value = message
             getRowInsert.commit()
@@ -71,10 +72,10 @@ const saveHistory = (number, message) => {
     } else {
         const worksheet = workbook.addWorksheet('Chats')
         worksheet.columns = [
-            { header: 'Date', key: 'date', width: 20 },
-            { header: 'Message', key: 'message', width: 50 },
+            { header: 'Date', key: 'date' },
+            { header: 'Message', key: 'message' },
         ]
-        worksheet.addRow({ fecha: today, mensaje: message })
+        worksheet.addRow({ date: today, message })
         workbook.xlsx
             .writeFile(pathChat)
             .then(() => {
