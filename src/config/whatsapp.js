@@ -1,11 +1,10 @@
 import qrcode from 'qrcode-terminal'
-import fs from 'fs'
 import pkg from 'whatsapp-web.js'
-import exceljs from 'exceljs'
-import moment from 'moment'
-import qr from 'qr-image'
+/* import fs from 'fs' */
+/* import exceljs from 'exceljs'
+import moment from 'moment' */
 
-const { Client, LocalAuth, MessageMedia } = pkg
+const { Client, LocalAuth /* MessageMedia */ } = pkg
 
 const client = new Client({
     authStrategy: new LocalAuth(),
@@ -34,22 +33,42 @@ client.on('message', async message => {
 
         if (!chat.isGroup) {
             console.log(`${from} said: ${body}`)
-            saveHistory(from, body)
-            // await sendMessage(from, 'Hola! en un momento te contestaré')
+            // saveHistory(from, body)
+            if (
+                body.toLowerCase().includes('hola') ||
+                body.toLowerCase().includes('hi') ||
+                body.toLowerCase().includes('hello') ||
+                body.toLowerCase().includes('hey') ||
+                body.toLowerCase().includes('ayudar') ||
+                body.toLowerCase().includes('ayuda')
+            ) {
+                await sendMessage(
+                    from,
+                    'Hola! 👋🏼 en un momento te contestaré 😃'
+                )
+            }
+
+            if (
+                body.toLowerCase().includes('gracias') ||
+                body.toLowerCase().includes('thanks') ||
+                body.toLowerCase().includes('thank you')
+            ) {
+                await sendMessage(from, 'Por nada 😉')
+            }
         }
     }
 })
 
-const sendMedia = async (to, file, caption = '') => {
+/* const sendMedia = async (to, file, caption = '') => {
     const media = MessageMedia.fromFilePath(`./img/${file}`)
     await client.sendMessage(to, media, { caption })
-}
+} */
 
 const sendMessage = async (to, message) => {
     await client.sendMessage(to, message)
 }
 
-const saveHistory = (number, message) => {
+/* const saveHistory = (number, message) => {
     const pathChat = `./chats/${number}.xlsx`
     const workbook = new exceljs.Workbook()
     const today = moment().format('DD-MM-YYYY hh:mm')
@@ -83,6 +102,6 @@ const saveHistory = (number, message) => {
             })
             .catch(err => console.log(err))
     }
-}
+} */
 
 export default client
