@@ -64,7 +64,7 @@ client.on('message', async message => {
 })
 
 /* const sendMedia = async (to, file, caption = '') => {
-    const media = MessageMedia.fromFilePath(`./img/${file}`)
+    const media = MessageMedia.fromFilePath(`./media/${file}`)
     await client.sendMessage(to, media, { caption })
 } */
 
