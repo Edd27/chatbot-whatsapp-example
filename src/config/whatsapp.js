@@ -27,35 +27,39 @@ client.on('ready', () => {
 })
 
 client.on('message', async message => {
-    const { body, from, isStatus } = message
-    if (body.length && !isStatus) {
-        const chat = await message.getChat()
+    try {
+        const { body, from, isStatus } = message
+        if (body.length && !isStatus) {
+            const chat = await message.getChat()
 
-        if (!chat.isGroup) {
-            console.log(`${from} said: ${body}`)
-            // saveHistory(from, body)
-            if (
-                body.toLowerCase().includes('hola') ||
-                body.toLowerCase().includes('hi') ||
-                body.toLowerCase().includes('hello') ||
-                body.toLowerCase().includes('hey') ||
-                body.toLowerCase().includes('ayudar') ||
-                body.toLowerCase().includes('ayuda')
-            ) {
-                await sendMessage(
-                    from,
-                    'Hola! 👋🏼 en un momento te contestaré 😃'
-                )
-            }
+            if (!chat.isGroup) {
+                console.log(`${from} said: ${body}`)
+                // saveHistory(from, body)
+                if (
+                    body.toLowerCase().includes('hola') ||
+                    body.toLowerCase().includes('hi') ||
+                    body.toLowerCase().includes('hello') ||
+                    body.toLowerCase().includes('hey') ||
+                    body.toLowerCase().includes('ayudar') ||
+                    body.toLowerCase().includes('ayuda')
+                ) {
+                    await sendMessage(
+                        from,
+                        'Hola! 👋🏼 en un momento te contestaré 😃'
+                    )
+                }
 
-            if (
-                body.toLowerCase().includes('gracias') ||
-                body.toLowerCase().includes('thanks') ||
-                body.toLowerCase().includes('thank you')
-            ) {
-                await sendMessage(from, 'Por nada 😉')
+                if (
+                    body.toLowerCase().includes('gracias') ||
+                    body.toLowerCase().includes('thanks') ||
+                    body.toLowerCase().includes('thank you')
+                ) {
+                    await sendMessage(from, 'Por nada 😉')
+                }
             }
         }
+    } catch (err) {
+        console.log(err)
     }
 })
 
