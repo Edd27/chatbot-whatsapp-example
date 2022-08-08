@@ -44,6 +44,8 @@
     },
     "imports": {
         "#Config/*": "./src/config/*",
+        "#Controllers/*": "./src/controllers/*",
+        "#Routes/*": "./src/routes/*",
         "#Img/*": "./src/img/*"
     },
     "lint-staged": {
